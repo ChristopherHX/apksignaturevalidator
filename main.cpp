@@ -338,17 +338,6 @@ void printApkSigBlockV3(unsigned const char* c, unsigned const char* end) {
         size_t mdlen = siglen;
         EVP_PKEY *verify_key = pubkey;
 
-        // /*
-        // * NB: assumes verify_key, sig, siglen md and mdlen are already set up
-        // * and that verify_key is an RSA public key
-        // */
-        // ctx = EVP_PKEY_CTX_new(verify_key, NULL /* no engine */);
-        // if (!ctx){
-        //     /* Error occurred */
-        //     std::cout << "Error\n";
-
-        // }
-
         EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
 
         if (!EVP_DigestVerifyInit(mdctx, NULL, EVP_get_digestbynid(NID_sha512), NULL, verify_key)) {
@@ -376,37 +365,6 @@ void printApkSigBlockV3(unsigned const char* c, unsigned const char* end) {
 
         
         EVP_MD_CTX_free(mdctx);
-        
-        // if (EVP_PKEY_verify_init(ctx) <= 0) {
-        //     /* Error */
-        //     std::cout << "Error\n";
-
-        // }
-        // if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING) <= 0) {
-        //     /* Error */
-        //     std::cout << "Error\n";
-
-        // }
-        // if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha512()) <= 0) {
-        //     /* Error */
-        //     std::cout << "Error\n";
-        // }
-        // char name[255];
-        // EVP_PKEY_get_default_digest_name(verify_key, name, sizeof(name));
-        // /* Perform operation */
-        // auto ret = EVP_PKEY_verify(ctx, sig, signedDatalen, md, mdlen);
-        
-        // /*
-        // * ret == 1 indicates success, 0 verify failure and < 0 for some
-        // * other error.
-        // */
-        // if(ret != 1) {
-        //     std::cout << "Error\n";
-        //     ret = EVP_PKEY_verify(ctx, sig - 4, signedDatalen + 4, md, mdlen);
-        //     if(ret != 1) {
-        //         std::cout << "Error2\n";
-        //     }
-        // }
         
         EVP_PKEY_free(pubkey);
         c = signerend;
